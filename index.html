@@ -13,21 +13,16 @@
   <style>
     :root{
       --bg:#07070a;
-      --panel:#0d0e12;
-      --card:#11121a;
-      --card2:#0f1016;
+      --card:#10111a;
+      --card2:#0c0d13;
       --text:#ffffff;
       --muted:rgba(255,255,255,.72);
       --muted2:rgba(255,255,255,.55);
       --line:rgba(255,255,255,.10);
-      --line2:rgba(255,255,255,.14);
       --red:#ff2a2a;
       --red2:#b80000;
-      --white:#ffffff;
-      --black:#000000;
       --soft:rgba(255,255,255,.04);
-      --soft2:rgba(255,255,255,.06);
-      --good:#2dd4bf;
+      --ok:#2dd4bf;
       --warn:#fbbf24;
     }
     *{box-sizing:border-box}
@@ -41,7 +36,6 @@
         linear-gradient(180deg, #050509 0%, #090914 100%);
     }
 
-    /* Header */
     header{
       position:sticky; top:0; z-index:20;
       background: linear-gradient(180deg, rgba(0,0,0,.92) 0%, rgba(0,0,0,.70) 100%);
@@ -84,6 +78,8 @@
       border-radius: 12px;
       cursor: pointer;
       transition: transform .06s ease, border-color .2s ease, background .2s ease;
+      user-select:none;
+      white-space:nowrap;
     }
     .btn:hover{
       border-color: rgba(255,255,255,.25);
@@ -94,15 +90,13 @@
       background: linear-gradient(135deg, rgba(255,42,42,.28), rgba(255,255,255,.06));
       border-color: rgba(255,42,42,.45);
     }
-    .btn.ghost{
-      background: rgba(255,255,255,.02);
-      border-color: rgba(255,255,255,.10);
-    }
+    .btn.ghost{ background: rgba(255,255,255,.02); border-color: rgba(255,255,255,.10); }
     .btn.danger{
       background: rgba(255,42,42,.10);
       border-color: rgba(255,42,42,.35);
       color: #ffd1d1;
     }
+    .btn.small{ padding: 7px 10px; border-radius: 11px; font-size: 12px; }
     .pill{
       font-size:12px;
       padding:6px 10px;
@@ -112,59 +106,29 @@
       background: rgba(255,255,255,.02);
     }
 
-    /* Layout */
-    main{
-      padding: 14px 18px 18px 18px;
-      display:grid;
-      gap:14px;
-    }
-
-    .shell{
-      display:grid;
-      grid-template-columns: 360px 1fr;
-      gap:14px;
-      align-items:start;
-    }
-
+    main{ padding: 14px 18px 18px 18px; display:grid; gap:14px; }
+    .shell{ display:grid; grid-template-columns: 360px 1fr; gap:14px; align-items:start; }
     .card{
-      background: rgba(14,15,20,.86);
+      background: rgba(16,17,26,.86);
       border: 1px solid rgba(255,255,255,.10);
       border-radius: 20px;
       padding: 14px;
       box-shadow: 0 22px 90px rgba(0,0,0,.50);
+      overflow:hidden;
     }
-
     .cardTitle{
       display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;
       margin-bottom: 10px;
     }
-    .cardTitle h2{
-      margin:0;
-      font-size: 13px;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-    }
+    .cardTitle h2{ margin:0; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; }
     .hint{ color: var(--muted); font-size: 12px; }
 
     /* People list */
-    .peopleTop{
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
-      margin-bottom: 10px;
-    }
-    .search{
-      width: 100%;
-    }
-
-    .peopleList{
-      display:grid;
-      gap:10px;
-      margin-top: 10px;
-    }
-
+    .peopleList{ display:grid; gap:10px; margin-top: 10px; }
     .personTile{
       display:grid;
-      grid-template-columns: 68px 1fr;
-      gap:10px;
+      grid-template-columns: 1fr;
+      gap:8px;
       padding: 12px;
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,.10);
@@ -172,37 +136,21 @@
       cursor: pointer;
       transition: transform .08s ease, border-color .2s ease, background .2s ease;
     }
-    .personTile:hover{
-      border-color: rgba(255,255,255,.20);
-      background: rgba(255,255,255,.04);
-      transform: translateY(-1px);
-    }
+    .personTile:hover{ border-color: rgba(255,255,255,.20); background: rgba(255,255,255,.04); transform: translateY(-1px); }
     .personTile.active{
       border-color: rgba(255,42,42,.50);
       box-shadow: 0 0 0 2px rgba(255,42,42,.16) inset;
     }
-    .miniChartWrap{
-      width: 68px; height: 68px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.08);
-      display:flex; align-items:center; justify-content:center;
-    }
-    .miniChart{
-      width: 52px !important; height: 52px !important;
-    }
-    .personInfo{display:flex; flex-direction:column; gap:6px;}
-    .personNameRow{display:flex; gap:8px; align-items:center; justify-content:space-between}
+    .personTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
     .personName{
-      font-weight: 750;
-      letter-spacing: .05em;
+      font-weight: 800;
+      letter-spacing: .06em;
       text-transform: uppercase;
       font-size: 12px;
-      line-height: 1.2;
-      max-width: 210px;
       overflow:hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      max-width: 240px;
     }
     .editBtn{
       border: 1px solid rgba(255,255,255,.10);
@@ -212,14 +160,8 @@
       padding: 6px 8px;
       cursor:pointer;
     }
-    .editBtn:hover{ border-color: rgba(255,255,255,.20); color: var(--white); }
-    .personMeta{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      color: var(--muted2);
-      font-size: 12px;
-    }
+    .editBtn:hover{ border-color: rgba(255,255,255,.20); color: var(--text); }
+    .personMeta{ display:flex; gap:8px; flex-wrap:wrap; color: var(--muted2); font-size: 12px; }
     .tag{
       padding: 4px 8px;
       border-radius: 999px;
@@ -232,24 +174,18 @@
       display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;
       margin-bottom: 10px;
     }
-    .detailTitle{
-      display:flex; flex-direction:column; gap:4px;
-    }
+    .detailTitle{ display:flex; flex-direction:column; gap:4px; }
     .detailTitle .big{
       font-size: 16px;
-      font-weight: 800;
+      font-weight: 900;
       letter-spacing: .08em;
       text-transform: uppercase;
     }
-    .detailTitle .small{
-      color: var(--muted);
-      font-size: 12px;
-    }
+    .detailTitle .small{ color: var(--muted); font-size: 12px; }
     .detailActions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
 
-    /* Activity list (only selected person) */
+    /* Activities */
     .activityList{ display:grid; gap:10px; }
-
     .activityCard{
       border-radius: 18px;
       border: 1px solid rgba(255,255,255,.10);
@@ -258,16 +194,11 @@
       display:grid;
       gap:10px;
     }
-
     .row1{
       display:grid;
-      grid-template-columns: 1fr 260px;
+      grid-template-columns: 1fr 280px;
       gap: 10px;
       align-items:start;
-    }
-
-    .actTitle{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
     }
     .actTitle input{
       width: 100%;
@@ -275,7 +206,6 @@
       background: rgba(0,0,0,.22);
       border: 1px solid rgba(255,255,255,.10);
     }
-
     .rightBox{
       border-radius: 16px;
       border: 1px solid rgba(255,255,255,.08);
@@ -284,45 +214,116 @@
       display:grid;
       gap:10px;
     }
-
     .progressLine{
       display:flex; align-items:center; justify-content:space-between; gap:8px;
       color: var(--muted);
       font-size: 12px;
     }
-    .slider{
-      width: 100%;
-      accent-color: var(--red);
-    }
+    .slider{ width: 100%; accent-color: var(--red); }
 
     .row2{
       display:grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 240px 1fr;
       gap: 10px;
       align-items:start;
     }
-
-    .stars{ display:inline-flex; gap:4px; user-select:none; }
-    .star{ cursor:pointer; font-size:16px; opacity:.30; }
-    .star.on{ opacity:1; color: var(--white); text-shadow: 0 0 12px rgba(255,42,42,.25); }
-
     .notesBox textarea{
       width: 100%;
       background: rgba(0,0,0,.18);
       border: 1px solid rgba(255,255,255,.10);
       border-radius: 14px;
     }
-
     .actFooter{
       display:flex; gap:10px; justify-content:space-between; align-items:center; flex-wrap:wrap;
       color: var(--muted2);
       font-size: 12px;
     }
 
-    /* Weekly stats */
+    /* Dates */
+    .dateGrid{
+      display:grid;
+      gap:10px;
+    }
+    .dateRow{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      align-items:end;
+    }
+    .countdown{
+      padding: 10px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      font-size: 12px;
+      color: var(--muted);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .countdown b{ color: #fff; letter-spacing:.04em; }
+    .countdown.ok b{ color: rgba(255,255,255,.95); }
+    .countdown.soon b{ color: #fff; text-shadow:0 0 12px rgba(251,191,36,.22); }
+    .countdown.late b{ color: #fff; text-shadow:0 0 14px rgba(255,42,42,.35); }
+    .countdown .chip{
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted);
+      font-size: 12px;
+      white-space:nowrap;
+    }
+    .countdown .chip.late{ border-color: rgba(255,42,42,.45); }
+    .countdown .chip.soon{ border-color: rgba(251,191,36,.35); }
+    .countdown .chip.ok{ border-color: rgba(255,255,255,.18); }
+
+    /* Summary overlay */
+    .summaryOverlay{
+      display:none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(8px);
+      z-index: 50;
+      padding: 18px;
+    }
+    .summaryOverlay.show{ display:block; }
+    .summaryInner{
+      max-width: 1200px;
+      margin: 0 auto;
+      height: calc(100vh - 36px);
+      display:grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+    }
+    .summaryHead{
+      display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      padding: 14px;
+      border-radius: 20px;
+      background: rgba(16,17,26,.92);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .summaryHead .title{
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+    .summaryBody{
+      border-radius: 20px;
+      background: rgba(16,17,26,.92);
+      border: 1px solid rgba(255,255,255,.12);
+      overflow:auto;
+      padding: 14px;
+    }
+
+    /* Weekly stats block */
     .weeklyGrid{
       display:grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 420px 1fr;
       gap:14px;
       align-items:start;
     }
@@ -338,24 +339,17 @@
       border: 1px solid rgba(255,255,255,.08);
       padding: 10px;
     }
-
-    table{
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 860px;
-    }
-    th, td{
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      padding: 10px;
-      vertical-align: top;
-    }
+    table{ width: 100%; border-collapse: collapse; min-width: 920px; }
+    th, td{ border-bottom: 1px solid rgba(255,255,255,.10); padding: 10px; vertical-align: top; }
     th{
       text-transform: uppercase;
       letter-spacing: .08em;
       font-size: 12px;
       background: rgba(255,255,255,.02);
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
-
     .cyl{
       height: 14px;
       width: 220px;
@@ -374,6 +368,28 @@
     }
     .nowrap{ white-space:nowrap; }
 
+    /* Priority chips */
+    .prioSel{
+      width: 100%;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .prioChip{
+      display:inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.02);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .prioChip.urgente{ border-color: rgba(255,42,42,.55); color:#fff; }
+    .prioChip.alto{ border-color: rgba(255,42,42,.35); color:#fff; }
+    .prioChip.medio{ border-color: rgba(255,255,255,.20); }
+    .prioChip.normal{ border-color: rgba(255,255,255,.10); }
+
     /* Dialog */
     dialog{
       border: 1px solid rgba(255,255,255,.14);
@@ -381,7 +397,7 @@
       background: rgba(10,10,14,.96);
       color: var(--text);
       padding: 0;
-      max-width: 620px;
+      max-width: 740px;
       width: calc(100% - 24px);
       box-shadow: 0 30px 140px rgba(0,0,0,.65);
     }
@@ -403,11 +419,6 @@
       gap:10px;
       align-items:center;
     }
-    .teamRow input{
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 12px;
-    }
 
     footer{
       padding: 12px 18px 18px 18px;
@@ -422,6 +433,8 @@
       .shell{ grid-template-columns: 1fr; }
       .weeklyGrid{ grid-template-columns: 1fr; }
       .row1{ grid-template-columns: 1fr; }
+      .row2{ grid-template-columns: 1fr; }
+      .dateRow{ grid-template-columns: 1fr; }
       table{ min-width: 0; }
       .cyl{ width: 180px; }
     }
@@ -435,7 +448,7 @@
       <div class="mark"></div>
       <div>
         <h1>CRM PREVENCIÓN</h1>
-        <div class="sub">Selecciona una persona → gestiona sus actividades semanales → exporta Excel</div>
+        <div class="sub">Actividades + fechas opcionales con cuenta atrás (edición con código 0800)</div>
       </div>
     </div>
 
@@ -444,6 +457,7 @@
         Semana que inicia (lunes)
         <input id="weekPicker" type="date">
       </label>
+      <button class="btn ghost" id="btnResumen">Resumen</button>
       <button class="btn ghost" id="btnTeam">Editar equipo</button>
       <button class="btn primary" id="btnAddAct">+ Nueva actividad</button>
       <button class="btn" id="btnExportExcel">Exportar Excel</button>
@@ -461,13 +475,13 @@
         <div class="hint">Click en un nombre para ver solo sus actividades.</div>
       </div>
 
-      <input id="peopleSearch" class="search" type="text" placeholder="Buscar persona..." />
+      <input id="peopleSearch" type="text" placeholder="Buscar persona..." />
 
       <div class="peopleList" id="peopleList"></div>
     </section>
 
     <!-- RIGHT: DETAIL -->
-    <section class="card">
+    <section class="card" id="detailCard">
       <div class="detailHead">
         <div class="detailTitle">
           <div class="big" id="selPersonName">Selecciona una persona</div>
@@ -482,48 +496,32 @@
       </div>
 
       <div class="activityList" id="activityList"></div>
+
+      <!-- Resumen embebido (solo aparece si no hay persona seleccionada o modo resumen) -->
+      <div id="embeddedSummary" style="display:none; margin-top:12px"></div>
     </section>
   </div>
-
-  <!-- WEEKLY STATISTICS -->
-  <section class="card">
-    <div class="cardTitle">
-      <h2>Estadística semanal</h2>
-      <div class="hint">Todas las actividades de la semana, con % y cilindros de avance.</div>
-    </div>
-
-    <div class="weeklyGrid">
-      <div class="box">
-        <div class="hint" style="margin-bottom:10px">
-          Barras por persona (promedio de avance en la semana).
-        </div>
-        <div class="barWrap">
-          <canvas id="weekBar" height="240"></canvas>
-        </div>
-      </div>
-
-      <div class="box" style="overflow:auto">
-        <table>
-          <thead>
-            <tr>
-              <th>Persona</th>
-              <th>Actividad</th>
-              <th class="nowrap">% Avance</th>
-              <th class="nowrap">Carga</th>
-              <th>Progreso</th>
-              <th class="nowrap">⭐</th>
-            </tr>
-          </thead>
-          <tbody id="weekTableBody"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer>
   CREADO BY <b>Humber codes</b> — derechos reservados
 </footer>
+
+<!-- OVERLAY: RESUMEN GRANDE -->
+<div class="summaryOverlay" id="summaryOverlay" aria-hidden="true">
+  <div class="summaryInner">
+    <div class="summaryHead">
+      <div>
+        <div class="title">Resumen semanal</div>
+        <div class="hint" id="summaryWeekText">Semana: —</div>
+      </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+        <button class="btn" id="btnCloseResumen">Cerrar</button>
+      </div>
+    </div>
+    <div class="summaryBody" id="summaryBody"></div>
+  </div>
+</div>
 
 <!-- DIALOG: NEW ACTIVITY -->
 <dialog id="dlgAct">
@@ -547,9 +545,30 @@
       <label>% Avance
         <input id="newProgress" type="number" min="0" max="100" value="0" />
       </label>
-      <label>Prioridad (1-5)
-        <input id="newPriority" type="number" min="1" max="5" value="3" />
+      <label>Prioridad
+        <select id="newPriority">
+          <option value="normal">Normal</option>
+          <option value="medio">Medio</option>
+          <option value="alto">Alto</option>
+          <option value="urgente">Urgente</option>
+        </select>
       </label>
+    </div>
+
+    <div class="rightBox">
+      <div class="progressLine">
+        <span>Fechas (opcional)</span>
+        <button class="btn small ghost" id="btnEnableNewDates" type="button">Editar fechas (código)</button>
+      </div>
+      <div class="two" id="newDatesBox" style="display:none;">
+        <label>Fecha de ingreso
+          <input id="newStartDate" type="date" />
+        </label>
+        <label>Fecha límite
+          <input id="newDueDate" type="date" />
+        </label>
+      </div>
+      <div class="hint">Para agregar/editar/borrar fechas se solicita código <b>0800</b>.</div>
     </div>
 
     <label>Notas
@@ -569,7 +588,7 @@
     <h3 style="margin:0; letter-spacing:.12em; text-transform:uppercase">Editar equipo</h3>
 
     <div class="hint">
-      Cambia nombres, agrega o elimina personas. (Los datos de actividades se mantienen; si borras una persona, sus actividades también se borran).
+      Cambia nombres, agrega o elimina personas. (Si eliminas una persona, se borran sus actividades).
     </div>
 
     <div class="teamList" id="teamList"></div>
@@ -592,16 +611,21 @@
 
 <script>
 /* =========================
-   NOTE: "3D" pies
-   Chart.js no tiene 3D real.
-   Aquí lo simulamos con sombra y anillo (doughnut) para que se vea más moderno.
+   SECURITY NOTE:
+   This "0800" code check is client-side (front-end).
+   It blocks casual edits, but is NOT strong security.
 ========================= */
+
+/* =========================
+   CONFIG
+========================= */
+const EDIT_CODE = "0800";
 
 /* =========================
    STORAGE KEYS
 ========================= */
-const LS_KEY_DATA = "crm_prevencion_data_v3";
-const LS_KEY_TEAM = "crm_prevencion_team_v3";
+const LS_KEY_DATA = "crm_prevencion_data_v5";
+const LS_KEY_TEAM = "crm_prevencion_team_v5";
 
 /* =========================
    HELPERS
@@ -634,38 +658,63 @@ function nowLocalISO(){
   const pad = (n) => String(n).padStart(2,"0");
   return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
 }
+function safeDateISO(v){
+  // accept "" or YYYY-MM-DD
+  if(!v) return "";
+  if(/^\d{4}-\d{2}-\d{2}$/.test(v)) return v;
+  return "";
+}
+function promptCode(){
+  const c = prompt("Ingrese código para editar fechas:", "");
+  return (c || "").trim() === EDIT_CODE;
+}
+function toMs(iso){
+  // iso date only; interpret as end-of-day for due date; start-of-day for start
+  if(!iso) return null;
+  return new Date(iso + "T00:00:00").getTime();
+}
+function humanCountdown(dueISO){
+  const now = Date.now();
+  const due = new Date(dueISO + "T23:59:59").getTime();
+  const diff = due - now;
+
+  const abs = Math.abs(diff);
+  const days = Math.floor(abs / (1000*60*60*24));
+  const hours = Math.floor((abs % (1000*60*60*24)) / (1000*60*60));
+  const mins = Math.floor((abs % (1000*60*60)) / (1000*60));
+
+  const txt = `${days}d ${hours}h ${mins}m`;
+  return { diff, txt };
+}
+
+/* =========================
+   PRIORITY
+========================= */
+const PRIORITY_ORDER = { normal:1, medio:2, alto:3, urgente:4 };
+function prioLabel(p){ return (p||"normal"); }
+function prioChipClass(p){ return (p||"normal"); }
+
+/* =========================
+   LOAD/SAVE
+========================= */
+function saveData(){ localStorage.setItem(LS_KEY_DATA, JSON.stringify(data)); }
+function loadData(){
+  try{ const raw = localStorage.getItem(LS_KEY_DATA); return raw ? JSON.parse(raw) : null; }
+  catch(e){ return null; }
+}
+function saveTeam(){ localStorage.setItem(LS_KEY_TEAM, JSON.stringify(TEAM)); }
+function loadTeam(){
+  try{ const raw = localStorage.getItem(LS_KEY_TEAM); return raw ? JSON.parse(raw) : null; }
+  catch(e){ return null; }
+}
 
 /* =========================
    STATE
 ========================= */
 let TEAM = loadTeam() || ["Persona 1","Persona 2","Persona 3","Persona 4","Persona 5","Persona 6","Persona 7"];
 let data = loadData() || { activities: [] };
-
 let selectedPerson = TEAM[0] || "";
-let chartsMini = {}; // person -> Chart
-let chartWeekBar = null;
-
-/* =========================
-   LOAD/SAVE
-========================= */
-function saveData(){
-  localStorage.setItem(LS_KEY_DATA, JSON.stringify(data));
-}
-function loadData(){
-  try{
-    const raw = localStorage.getItem(LS_KEY_DATA);
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
-}
-function saveTeam(){
-  localStorage.setItem(LS_KEY_TEAM, JSON.stringify(TEAM));
-}
-function loadTeam(){
-  try{
-    const raw = localStorage.getItem(LS_KEY_TEAM);
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
-}
+let viewMode = "person"; // "person" | "summary"
 
 /* =========================
    GET WEEK & FILTERS
@@ -675,47 +724,51 @@ function weekActivities(week){ return data.activities.filter(a => a.week_start =
 function personWeekActivities(person, week){
   return data.activities.filter(a => a.owner === person && a.week_start === week);
 }
-function sortByPriority(rows){
+function sortPersonRows(rows){
   return rows.slice().sort((a,b)=>{
-    if (b.priority !== a.priority) return b.priority - a.priority;
+    const pa = PRIORITY_ORDER[a.priority || "normal"] || 1;
+    const pb = PRIORITY_ORDER[b.priority || "normal"] || 1;
+    if(pb !== pa) return pb - pa;
     return String(b.id).localeCompare(String(a.id));
   });
 }
 
 /* =========================
-   STARS UI
+   AUTO CARRY OVER INCOMPLETE TASKS
 ========================= */
-function renderStars(value, onChange){
-  const wrap = document.createElement("div");
-  wrap.className = "stars";
-  for(let i=1;i<=5;i++){
-    const s = document.createElement("span");
-    s.className = "star" + (i<=value ? " on" : "");
-    s.textContent = "★";
-    s.title = `Prioridad ${i}`;
-    s.addEventListener("click", () => onChange(i));
-    wrap.appendChild(s);
-  }
-  return wrap;
-}
+function carryOverIncomplete(prevWeek, newWeek){
+  if(!prevWeek || !newWeek || prevWeek === newWeek) return;
 
-/* =========================
-   CHART PLUGIN: SHADOW (fake 3D)
-========================= */
-const shadowPlugin = {
-  id: "shadowPlugin",
-  beforeDatasetsDraw(chart, args, pluginOptions) {
-    const { ctx } = chart;
-    ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,.55)";
-    ctx.shadowBlur = 16;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 6;
-  },
-  afterDatasetsDraw(chart) {
-    chart.ctx.restore();
+  const prev = data.activities.filter(a => a.week_start === prevWeek && clampInt(a.progress,0,100,0) < 100);
+  if(!prev.length) return;
+
+  const existing = new Set(
+    data.activities
+      .filter(a => a.week_start === newWeek && a.carried_from_id)
+      .map(a => a.carried_from_id)
+  );
+
+  let created = 0;
+  for(const a of prev){
+    if(existing.has(a.id)) continue;
+
+    data.activities.push({
+      id: uid(),
+      owner: a.owner,
+      title: a.title,
+      week_start: newWeek,
+      progress: clampInt(a.progress,0,100,0),
+      priority: a.priority || "normal",
+      notes: a.notes || "",
+      start_date: a.start_date || "",   // carry dates too
+      due_date: a.due_date || "",
+      carried_from_id: a.id,
+      carried_from_week: prevWeek
+    });
+    created++;
   }
-};
+  if(created) saveData();
+}
 
 /* =========================
    RENDER: PEOPLE LIST
@@ -736,23 +789,15 @@ function renderPeople(){
     const remaining = tasks ? rows.reduce((s,a)=>s+(100-clampInt(a.progress,0,100,0)),0) : 0;
 
     const tile = document.createElement("div");
-    tile.className = "personTile" + (person === selectedPerson ? " active" : "");
+    tile.className = "personTile" + (person === selectedPerson && viewMode === "person" ? " active" : "");
     tile.addEventListener("click", () => {
       selectedPerson = person;
+      viewMode = "person";
       renderAll();
     });
 
-    const chartWrap = document.createElement("div");
-    chartWrap.className = "miniChartWrap";
-    const canvas = document.createElement("canvas");
-    canvas.className = "miniChart";
-    chartWrap.appendChild(canvas);
-
-    const info = document.createElement("div");
-    info.className = "personInfo";
-
-    const nameRow = document.createElement("div");
-    nameRow.className = "personNameRow";
+    const top = document.createElement("div");
+    top.className = "personTop";
 
     const name = document.createElement("div");
     name.className = "personName";
@@ -768,8 +813,8 @@ function renderPeople(){
       openTeamDialog(person);
     });
 
-    nameRow.appendChild(name);
-    nameRow.appendChild(edit);
+    top.appendChild(name);
+    top.appendChild(edit);
 
     const meta = document.createElement("div");
     meta.className = "personMeta";
@@ -779,68 +824,169 @@ function renderPeople(){
       <span class="tag">carga ${remaining}</span>
     `;
 
-    info.appendChild(nameRow);
-    info.appendChild(meta);
-
-    tile.appendChild(chartWrap);
-    tile.appendChild(info);
+    tile.appendChild(top);
+    tile.appendChild(meta);
     list.appendChild(tile);
-
-    // Mini chart (small "3D" doughnut)
-    // Distribution: Avance vs Pendiente
-    const done = avg;
-    const pend = 100 - avg;
-
-    // destroy old if exists
-    if(chartsMini[person]) { try{ chartsMini[person].destroy(); }catch(e){} }
-
-    chartsMini[person] = new Chart(canvas, {
-      type: "doughnut",
-      plugins: [shadowPlugin],
-      data: {
-        labels: ["Avance", "Pendiente"],
-        datasets: [{
-          data: tasks ? [done, pend] : [0, 100],
-          backgroundColor: [
-            "rgba(255,42,42,.92)",
-            "rgba(255,255,255,.10)"
-          ],
-          borderColor: "rgba(255,255,255,.12)",
-          borderWidth: 1,
-          hoverOffset: 2
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: "70%",
-        plugins: {
-          legend: { display: false },
-          tooltip: { enabled: true }
-        }
-      }
-    });
   }
 }
 
 /* =========================
-   RENDER: PERSON DETAIL (ONLY SELECTED)
+   DATE UI BUILD (per activity)
+========================= */
+function buildDateSection(activity){
+  const box = document.createElement("div");
+  box.className = "rightBox dateGrid";
+
+  const head = document.createElement("div");
+  head.className = "progressLine";
+  head.innerHTML = `<span>Fechas y contador</span>`;
+
+  const btnEdit = document.createElement("button");
+  btnEdit.type = "button";
+  btnEdit.className = "btn small ghost";
+  btnEdit.textContent = "Editar/Borrar fechas (código)";
+  head.appendChild(btnEdit);
+
+  const inner = document.createElement("div");
+  inner.style.display = "grid";
+  inner.style.gap = "10px";
+
+  const datesExist = !!(activity.start_date || activity.due_date);
+
+  const dateInputs = document.createElement("div");
+  dateInputs.className = "dateRow";
+  dateInputs.style.display = "none"; // locked by default
+
+  const startLabel = document.createElement("label");
+  startLabel.textContent = "Fecha de ingreso";
+  const start = document.createElement("input");
+  start.type = "date";
+  start.value = activity.start_date || "";
+  startLabel.appendChild(start);
+
+  const dueLabel = document.createElement("label");
+  dueLabel.textContent = "Fecha límite";
+  const due = document.createElement("input");
+  due.type = "date";
+  due.value = activity.due_date || "";
+  dueLabel.appendChild(due);
+
+  dateInputs.appendChild(startLabel);
+  dateInputs.appendChild(dueLabel);
+
+  const cd = document.createElement("div");
+  cd.className = "countdown";
+  cd.id = `cd-${activity.id}`;
+
+  function updateCountdown(){
+    const dueISO = activity.due_date || "";
+    if(!dueISO){
+      cd.className = "countdown";
+      cd.innerHTML = `<span class="chip ok">SIN FECHA LÍMITE</span><b>—</b>`;
+      return;
+    }
+    const { diff, txt } = humanCountdown(dueISO);
+    const daysLeft = Math.floor(Math.abs(diff) / (1000*60*60*24));
+    let status = "ok";
+    if(diff < 0) status = "late";
+    else if(daysLeft <= 2) status = "soon";
+
+    cd.className = `countdown ${status}`;
+    const chipClass = status === "late" ? "late" : (status === "soon" ? "soon" : "ok");
+    const chipText = status === "late" ? "ATRASADO" : (status === "soon" ? "PRÓXIMO" : "EN TIEMPO");
+    cd.innerHTML = `<span class="chip ${chipClass}">${chipText}</span><b>${status === "late" ? "-" : ""}${txt}</b>`;
+  }
+
+  updateCountdown();
+
+  // Edit action (requires code)
+  btnEdit.addEventListener("click", () => {
+    if(!promptCode()){
+      alert("Código incorrecto.");
+      return;
+    }
+    // unlock
+    dateInputs.style.display = "grid";
+
+    // Save on change
+    const saveNow = () => {
+      activity.start_date = safeDateISO(start.value);
+      activity.due_date = safeDateISO(due.value);
+
+      // If both empty, treat as removed
+      if(!activity.start_date && !activity.due_date){
+        // nothing extra needed
+      }
+
+      saveData();
+      updateCountdown();
+      renderWeeklyStatsInto(); // refresh table
+    };
+
+    start.addEventListener("change", saveNow, { once:false });
+    due.addEventListener("change", saveNow, { once:false });
+
+    // Add a clear button (only when unlocked)
+    if(!inner.querySelector("[data-clear='1']")){
+      const clearBtn = document.createElement("button");
+      clearBtn.type = "button";
+      clearBtn.className = "btn small danger";
+      clearBtn.textContent = "Borrar fechas";
+      clearBtn.dataset.clear = "1";
+      clearBtn.addEventListener("click", () => {
+        if(!promptCode()){
+          alert("Código incorrecto.");
+          return;
+        }
+        start.value = "";
+        due.value = "";
+        activity.start_date = "";
+        activity.due_date = "";
+        saveData();
+        updateCountdown();
+        renderWeeklyStatsInto();
+        dateInputs.style.display = "none";
+      });
+      inner.appendChild(clearBtn);
+    }
+  });
+
+  inner.appendChild(dateInputs);
+  inner.appendChild(cd);
+  box.appendChild(head);
+  box.appendChild(inner);
+
+  return box;
+}
+
+/* =========================
+   RENDER: PERSON DETAIL
 ========================= */
 function renderSelectedDetail(){
   const week = getWeek();
 
-  $("selPersonName").textContent = selectedPerson ? selectedPerson : "Selecciona una persona";
-  $("selPersonMeta").textContent = `Semana: ${week}`;
-
+  const embedded = $("embeddedSummary");
   const list = $("activityList");
-  list.innerHTML = "";
 
-  if(!selectedPerson){
-    list.innerHTML = `<span class="pill">No hay persona seleccionada.</span>`;
+  if(viewMode === "summary" || !selectedPerson){
+    $("selPersonName").textContent = "Resumen (Responsable)";
+    $("selPersonMeta").textContent = `Semana: ${week}`;
+    list.innerHTML = "";
+    embedded.style.display = "block";
+    embedded.innerHTML = "";
+    embedded.appendChild(buildWeeklyStatsBlock(true));
     return;
   }
 
-  const rows = sortByPriority(personWeekActivities(selectedPerson, week));
+  embedded.style.display = "none";
+  embedded.innerHTML = "";
+
+  $("selPersonName").textContent = selectedPerson;
+  $("selPersonMeta").textContent = `Semana: ${week}`;
+
+  list.innerHTML = "";
+
+  const rows = sortPersonRows(personWeekActivities(selectedPerson, week));
 
   if(!rows.length){
     list.innerHTML = `<span class="pill">Sin actividades para ${selectedPerson} en esta semana. Usa “+ Nueva actividad”.</span>`;
@@ -863,38 +1009,43 @@ function renderSelectedDetail(){
     title.value = a.title;
     title.addEventListener("change", () => {
       a.title = title.value.trim().slice(0,200);
-      saveData(); renderWeeklyStats(); // refresh weekly table labels
+      saveData();
+      renderWeeklyStatsInto();
     });
     left.appendChild(title);
 
-    // Right: progress box
+    // Right: progress
     const right = document.createElement("div");
     right.className = "rightBox";
 
+    const v = clampInt(a.progress,0,100,0);
+
     const progLine = document.createElement("div");
     progLine.className = "progressLine";
-    const v = clampInt(a.progress,0,100,0);
     progLine.innerHTML = `<span>% Avance</span><b>${v}%</b>`;
+
     const slider = document.createElement("input");
     slider.className = "slider";
     slider.type = "range";
     slider.min = 0;
     slider.max = 100;
     slider.value = v;
-    slider.addEventListener("input", () => {
-      const nv = clampInt(slider.value,0,100,0);
-      progLine.innerHTML = `<span>% Avance</span><b>${nv}%</b>`;
-    });
-    slider.addEventListener("change", () => {
-      a.progress = clampInt(slider.value,0,100,0);
-      saveData();
-      renderPeople(); // update mini charts
-      renderWeeklyStats();
-    });
 
     const carga = document.createElement("div");
     carga.className = "progressLine";
     carga.innerHTML = `<span>Carga de proceso</span><b>${100 - v}</b>`;
+
+    slider.addEventListener("input", () => {
+      const nv = clampInt(slider.value,0,100,0);
+      progLine.innerHTML = `<span>% Avance</span><b>${nv}%</b>`;
+      carga.innerHTML = `<span>Carga de proceso</span><b>${100 - nv}</b>`;
+    });
+    slider.addEventListener("change", () => {
+      a.progress = clampInt(slider.value,0,100,0);
+      saveData();
+      renderPeople();
+      renderWeeklyStatsInto();
+    });
 
     right.appendChild(progLine);
     right.appendChild(slider);
@@ -909,16 +1060,29 @@ function renderSelectedDetail(){
 
     const priBox = document.createElement("div");
     priBox.className = "rightBox";
-    const priTitle = document.createElement("div");
-    priTitle.className = "progressLine";
-    priTitle.innerHTML = `<span>Prioridad</span><b>${clampInt(a.priority,1,5,3)}</b>`;
-    priBox.appendChild(priTitle);
-    priBox.appendChild(renderStars(clampInt(a.priority,1,5,3), (nv) => {
-      a.priority = nv;
+
+    const priTop = document.createElement("div");
+    priTop.className = "progressLine";
+    priTop.innerHTML = `<span>Prioridad</span><span class="prioChip ${prioChipClass(a.priority)}">${prioLabel(a.priority).toUpperCase()}</span>`;
+
+    const priSel = document.createElement("select");
+    priSel.className = "prioSel";
+    priSel.innerHTML = `
+      <option value="normal">Normal</option>
+      <option value="medio">Medio</option>
+      <option value="alto">Alto</option>
+      <option value="urgente">Urgente</option>
+    `;
+    priSel.value = a.priority || "normal";
+    priSel.addEventListener("change", () => {
+      a.priority = priSel.value;
       saveData();
-      renderSelectedDetail(); // re-order
-      renderWeeklyStats();
-    }));
+      renderSelectedDetail();
+      renderWeeklyStatsInto();
+    });
+
+    priBox.appendChild(priTop);
+    priBox.appendChild(priSel);
 
     const notes = document.createElement("div");
     notes.className = "notesBox";
@@ -935,10 +1099,15 @@ function renderSelectedDetail(){
     row2.appendChild(priBox);
     row2.appendChild(notes);
 
+    // Dates section (optional) with code gate
+    const dateSection = buildDateSection(a);
+
     // Footer actions
     const foot = document.createElement("div");
     foot.className = "actFooter";
-    foot.innerHTML = `<span>ID: ${a.id}</span><span>carga: <b>${100 - clampInt(a.progress,0,100,0)}</b></span>`;
+
+    const carried = a.carried_from_week ? ` • arrastre: ${a.carried_from_week}` : "";
+    foot.innerHTML = `<span>ID: ${a.id}${carried}</span><span>carga: <b>${100 - clampInt(a.progress,0,100,0)}</b></span>`;
 
     const del = document.createElement("button");
     del.className = "btn danger";
@@ -955,46 +1124,108 @@ function renderSelectedDetail(){
 
     card.appendChild(row1);
     card.appendChild(row2);
+    card.appendChild(dateSection);
     card.appendChild(foot);
     list.appendChild(card);
   }
 }
 
 /* =========================
-   WEEKLY STATISTICS
+   BUILD WEEKLY STATS BLOCK (reusable)
 ========================= */
-function renderWeeklyStats(){
+function buildWeeklyStatsBlock(isBig){
+  const wrap = document.createElement("div");
+  wrap.className = "weeklyGrid";
+
+  const left = document.createElement("div");
+  left.className = "box";
+  left.innerHTML = `
+    <div class="hint" style="margin-bottom:10px">
+      Barras por persona (promedio de avance en la semana).
+    </div>
+    <div class="barWrap">
+      <canvas id="${isBig ? "weekBarBig" : "weekBar"}" height="260"></canvas>
+    </div>
+  `;
+
+  const right = document.createElement("div");
+  right.className = "box";
+  right.style.overflow = "auto";
+  right.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Persona</th>
+          <th>Actividad</th>
+          <th class="nowrap">% Avance</th>
+          <th class="nowrap">Carga</th>
+          <th>Progreso</th>
+          <th class="nowrap">Prioridad</th>
+          <th class="nowrap">Límite</th>
+          <th class="nowrap">Cuenta atrás</th>
+        </tr>
+      </thead>
+      <tbody id="${isBig ? "weekTableBodyBig" : "weekTableBody"}"></tbody>
+    </table>
+  `;
+
+  wrap.appendChild(left);
+  wrap.appendChild(right);
+
+  setTimeout(() => renderWeeklyStatsInto(isBig), 0);
+  return wrap;
+}
+
+/* =========================
+   WEEKLY STATS RENDER
+========================= */
+function renderWeeklyStatsInto(big=false){
   const week = getWeek();
   const rows = weekActivities(week);
 
-  // Table
-  const tb = $("weekTableBody");
+  const tbId = big ? "weekTableBodyBig" : "weekTableBody";
+  const barId = big ? "weekBarBig" : "weekBar";
+
+  const tb = document.getElementById(tbId);
+  const canvas = document.getElementById(barId);
+  if(!tb || !canvas) return;
+
   tb.innerHTML = "";
 
   const sorted = rows.slice().sort((a,b)=>{
     if(a.owner !== b.owner) return a.owner.localeCompare(b.owner);
-    if(b.priority !== a.priority) return b.priority - a.priority;
-    return (b.progress - a.progress);
+    const pa = PRIORITY_ORDER[a.priority || "normal"] || 1;
+    const pb = PRIORITY_ORDER[b.priority || "normal"] || 1;
+    if(pb !== pa) return pb - pa;
+    return (clampInt(b.progress,0,100,0) - clampInt(a.progress,0,100,0));
   });
 
   if(!sorted.length){
     const tr = document.createElement("tr");
-    tr.innerHTML = `<td colspan="6"><span class="pill">No hay actividades en esta semana.</span></td>`;
+    tr.innerHTML = `<td colspan="8"><span class="pill">No hay actividades en esta semana.</span></td>`;
     tb.appendChild(tr);
   }else{
     for(const a of sorted){
       const av = clampInt(a.progress,0,100,0);
       const carga = 100 - av;
+
+      let limite = a.due_date || "";
+      let ca = "—";
+      if(limite){
+        const { diff, txt } = humanCountdown(limite);
+        ca = (diff < 0 ? "-" : "") + txt;
+      }
+
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td class="nowrap">${a.owner}</td>
         <td>${(a.title||"").slice(0,140)}</td>
         <td class="nowrap"><b>${av}%</b></td>
         <td class="nowrap">${carga}</td>
-        <td>
-          <div class="cyl"><div style="width:${av}%"></div></div>
-        </td>
-        <td class="nowrap">${"★".repeat(clampInt(a.priority,1,5,3))}</td>
+        <td><div class="cyl"><div style="width:${av}%"></div></div></td>
+        <td class="nowrap"><span class="prioChip ${prioChipClass(a.priority)}">${prioLabel(a.priority).toUpperCase()}</span></td>
+        <td class="nowrap">${limite || "—"}</td>
+        <td class="nowrap">${ca}</td>
       `;
       tb.appendChild(tr);
     }
@@ -1008,12 +1239,10 @@ function renderWeeklyStats(){
     return Math.round(pr.reduce((s,a)=>s+clampInt(a.progress,0,100,0),0)/pr.length);
   });
 
-  // destroy & rebuild
-  if(chartWeekBar){ try{ chartWeekBar.destroy(); }catch(e){} }
+  window.__charts__ = window.__charts__ || {};
+  if(window.__charts__[barId]){ try{ window.__charts__[barId].destroy(); }catch(e){} }
 
-  const ctx = $("weekBar");
-
-  chartWeekBar = new Chart(ctx, {
+  window.__charts__[barId] = new Chart(canvas, {
     type: "bar",
     data: {
       labels,
@@ -1023,29 +1252,16 @@ function renderWeeklyStats(){
         backgroundColor: "rgba(255,42,42,.80)",
         borderColor: "rgba(255,255,255,.18)",
         borderWidth: 1,
-        borderRadius: 999, // makes it look like cylinders
+        borderRadius: 999,
         barThickness: 18
       }]
     },
     options: {
       responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          callbacks: { label: (c) => ` ${c.raw}%` }
-        }
-      },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: (c) => ` ${c.raw}%` } } },
       scales: {
-        x: {
-          ticks: { color: "rgba(255,255,255,.80)" },
-          grid: { color: "rgba(255,255,255,.06)" }
-        },
-        y: {
-          suggestedMin: 0,
-          suggestedMax: 100,
-          ticks: { color: "rgba(255,255,255,.80)" },
-          grid: { color: "rgba(255,255,255,.06)" }
-        }
+        x: { ticks: { color: "rgba(255,255,255,.80)" }, grid: { color: "rgba(255,255,255,.06)" } },
+        y: { suggestedMin: 0, suggestedMax: 100, ticks: { color: "rgba(255,255,255,.80)" }, grid: { color: "rgba(255,255,255,.06)" } }
       }
     }
   });
@@ -1070,11 +1286,21 @@ function addActivity(payload){
     title: payload.title.trim().slice(0,200),
     week_start: payload.week_start,
     progress: clampInt(payload.progress,0,100,0),
-    priority: clampInt(payload.priority,1,5,3),
-    notes: (payload.notes || "").slice(0,500)
+    priority: payload.priority || "normal",
+    notes: (payload.notes || "").slice(0,500),
+    start_date: safeDateISO(payload.start_date || ""),
+    due_date: safeDateISO(payload.due_date || "")
   });
   saveData();
 }
+
+$("btnEnableNewDates").addEventListener("click", () => {
+  if(!promptCode()){
+    alert("Código incorrecto.");
+    return;
+  }
+  $("newDatesBox").style.display = "grid";
+});
 
 $("btnAddAct").addEventListener("click", () => {
   fillOwnersSelect($("newOwner"));
@@ -1082,8 +1308,11 @@ $("btnAddAct").addEventListener("click", () => {
   $("newWeek").value = getWeek();
   $("newTitle").value = "";
   $("newProgress").value = 0;
-  $("newPriority").value = 3;
+  $("newPriority").value = "normal";
   $("newNotes").value = "";
+  $("newStartDate").value = "";
+  $("newDueDate").value = "";
+  $("newDatesBox").style.display = "none";
   $("dlgAct").showModal();
 });
 
@@ -1095,7 +1324,9 @@ $("btnCreateAct").addEventListener("click", (e) => {
     title: $("newTitle").value,
     progress: $("newProgress").value,
     priority: $("newPriority").value,
-    notes: $("newNotes").value
+    notes: $("newNotes").value,
+    start_date: $("newStartDate").value,
+    due_date: $("newDueDate").value
   };
   if(!payload.week_start){ alert("Selecciona semana."); return; }
   if(!payload.owner){ alert("Selecciona persona."); return; }
@@ -1105,6 +1336,7 @@ $("btnCreateAct").addEventListener("click", (e) => {
   $("dlgAct").close();
 
   selectedPerson = payload.owner;
+  viewMode = "person";
   renderAll();
 });
 
@@ -1134,16 +1366,9 @@ function renderTeamEditor(focusName){
     del.textContent = "Eliminar";
     del.addEventListener("click", () => {
       if(!confirm(`¿Eliminar a "${name}"? Esto borrará sus actividades.`)) return;
-
-      // Remove activities
       data.activities = data.activities.filter(a => a.owner !== name);
-      // Remove from team
       TEAM = TEAM.filter((_, i) => i !== idx);
-
-      saveData();
-      saveTeam();
-
-      // fix selected
+      saveData(); saveTeam();
       if(selectedPerson === name) selectedPerson = TEAM[0] || "";
       renderTeamEditor();
       renderAll();
@@ -1151,7 +1376,6 @@ function renderTeamEditor(focusName){
 
     row.appendChild(inp);
     row.appendChild(del);
-
     box.appendChild(row);
 
     if(focusName && name === focusName){
@@ -1175,33 +1399,26 @@ $("btnAddPerson").addEventListener("click", () => {
 $("btnSaveTeam").addEventListener("click", (e) => {
   e.preventDefault();
 
-  // Read current inputs in team editor and apply renames
   const inputs = Array.from($("teamList").querySelectorAll("input"));
   const newNames = inputs.map(i => (i.value || "").trim()).filter(Boolean);
 
-  // Validate duplicates
   const lower = newNames.map(n => n.toLowerCase());
   const dup = lower.some((v,i)=> lower.indexOf(v) !== i);
   if(dup) return alert("Hay nombres repetidos. Corrige y guarda.");
 
-  // Map old->new (by index)
   const oldTeam = TEAM.slice();
   const map = new Map();
   for(let i=0;i<oldTeam.length;i++){
     map.set(oldTeam[i], newNames[i] || oldTeam[i]);
   }
-
   TEAM = newNames;
 
-  // Apply renames in activities
   data.activities.forEach(a => {
     if(map.has(a.owner)) a.owner = map.get(a.owner);
   });
 
-  saveTeam();
-  saveData();
+  saveTeam(); saveData();
 
-  // Fix selected
   if(map.has(selectedPerson)) selectedPerson = map.get(selectedPerson);
   if(!TEAM.includes(selectedPerson)) selectedPerson = TEAM[0] || "";
 
@@ -1212,14 +1429,14 @@ $("btnSaveTeam").addEventListener("click", (e) => {
 /* =========================
    WEEK NAV & CLEAR
 ========================= */
-$("btnPrevWeek").addEventListener("click", () => {
-  $("weekPicker").value = addDays(getWeek(), -7);
+function setWeekWithCarry(newWeek){
+  const prevWeek = getWeek();
+  carryOverIncomplete(prevWeek, newWeek);
+  $("weekPicker").value = newWeek;
   renderAll();
-});
-$("btnNextWeek").addEventListener("click", () => {
-  $("weekPicker").value = addDays(getWeek(), 7);
-  renderAll();
-});
+}
+$("btnPrevWeek").addEventListener("click", () => setWeekWithCarry(addDays(getWeek(), -7)));
+$("btnNextWeek").addEventListener("click", () => setWeekWithCarry(addDays(getWeek(), 7)));
 
 $("btnClearPersonWeek").addEventListener("click", () => {
   const week = getWeek();
@@ -1236,8 +1453,35 @@ $("btnClearPersonWeek").addEventListener("click", () => {
 $("peopleSearch").addEventListener("input", renderPeople);
 
 /* =========================
+   RESUMEN OVERLAY
+========================= */
+function openResumen(){
+  viewMode = "summary";
+  $("summaryWeekText").textContent = `Semana: ${getWeek()}`;
+  const body = $("summaryBody");
+  body.innerHTML = "";
+  body.appendChild(buildWeeklyStatsBlock(true));
+  $("summaryOverlay").classList.add("show");
+  $("summaryOverlay").setAttribute("aria-hidden","false");
+  renderSelectedDetail();
+}
+function closeResumen(){
+  $("summaryOverlay").classList.remove("show");
+  $("summaryOverlay").setAttribute("aria-hidden","true");
+  viewMode = selectedPerson ? "person" : "summary";
+  renderSelectedDetail();
+}
+$("btnResumen").addEventListener("click", openResumen);
+$("btnCloseResumen").addEventListener("click", closeResumen);
+$("summaryOverlay").addEventListener("click", (e) => {
+  if(e.target === $("summaryOverlay")) closeResumen();
+});
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape" && $("summaryOverlay").classList.contains("show")) closeResumen();
+});
+
+/* =========================
    EXPORT EXCEL (ALL ACTIVITIES)
-   Columns: Nombre, Semana, Actividad, % Avance, Carga, Prioridad, Notas, Fecha descarga
 ========================= */
 function exportExcel(){
   const downloadAt = nowLocalISO();
@@ -1246,28 +1490,34 @@ function exportExcel(){
     .sort((a,b)=>{
       if(a.owner !== b.owner) return a.owner.localeCompare(b.owner);
       if(a.week_start !== b.week_start) return a.week_start.localeCompare(b.week_start);
+      const pa = PRIORITY_ORDER[a.priority || "normal"] || 1;
+      const pb = PRIORITY_ORDER[b.priority || "normal"] || 1;
+      if(pb !== pa) return pb - pa;
       return String(a.id).localeCompare(String(b.id));
     })
     .map(a => ({
       "Nombre": a.owner,
-      "Fecha (Semana)": a.week_start,
+      "Semana": a.week_start,
       "Actividad": a.title,
       "% Avance": clampInt(a.progress,0,100,0),
       "Carga de proceso": 100 - clampInt(a.progress,0,100,0),
-      "Prioridad (1-5)": clampInt(a.priority,1,5,3),
+      "Prioridad": prioLabel(a.priority),
+      "Fecha ingreso": a.start_date || "",
+      "Fecha límite": a.due_date || "",
       "Notas": a.notes || "",
+      "Arrastre desde": a.carried_from_week || "",
       "Fecha descarga": downloadAt
     }));
 
   const wb = XLSX.utils.book_new();
   const ws = XLSX.utils.json_to_sheet(rows.length ? rows : [{
-    "Nombre":"", "Fecha (Semana)":"", "Actividad":"", "% Avance":"", "Carga de proceso":"",
-    "Prioridad (1-5)":"", "Notas":"", "Fecha descarga": downloadAt
+    "Nombre":"", "Semana":"", "Actividad":"", "% Avance":"", "Carga de proceso":"",
+    "Prioridad":"", "Fecha ingreso":"", "Fecha límite":"", "Notas":"", "Arrastre desde":"", "Fecha descarga": downloadAt
   }]);
 
   ws["!cols"] = [
-    { wch: 18 }, { wch: 14 }, { wch: 42 }, { wch: 10 },
-    { wch: 16 }, { wch: 14 }, { wch: 40 }, { wch: 20 }
+    { wch: 18 }, { wch: 12 }, { wch: 46 }, { wch: 10 },
+    { wch: 16 }, { wch: 12 }, { wch: 14 }, { wch: 14 }, { wch: 40 }, { wch: 14 }, { wch: 20 }
   ];
 
   XLSX.utils.book_append_sheet(wb, ws, "Actividades");
@@ -1280,13 +1530,20 @@ $("btnExportExcel").addEventListener("click", exportExcel);
    RENDER ALL
 ========================= */
 function renderAll(){
-  // Ensure selected person exists
   if(selectedPerson && !TEAM.includes(selectedPerson)) selectedPerson = TEAM[0] || "";
   if(!selectedPerson && TEAM.length) selectedPerson = TEAM[0];
+  if(!selectedPerson) viewMode = "summary";
 
   renderPeople();
   renderSelectedDetail();
-  renderWeeklyStats();
+
+  // refresh overlay if open
+  if($("summaryOverlay").classList.contains("show")){
+    $("summaryWeekText").textContent = `Semana: ${getWeek()}`;
+    const body = $("summaryBody");
+    body.innerHTML = "";
+    body.appendChild(buildWeeklyStatsBlock(true));
+  }
 }
 
 /* =========================
@@ -1295,26 +1552,37 @@ function renderAll(){
 (function init(){
   $("weekPicker").value = mondayOf();
 
-  // Seed if empty
   if(!data.activities.length){
     const w = $("weekPicker").value;
     const p0 = TEAM[0] || "Persona 1";
     const p1 = TEAM[1] || p0;
 
     data.activities.push(
-      { id: uid(), owner: p0, title:"Inspección semanal", week_start:w, progress:25, priority:4, notes:"Edita o borra esta actividad." },
-      { id: uid(), owner: p0, title:"Informe preventivo", week_start:w, progress:60, priority:3, notes:"La mini gráfica muestra avance vs pendiente." },
-      { id: uid(), owner: p1, title:"Seguimiento de hallazgos", week_start:w, progress:10, priority:5, notes:"Prioridad alta (★★★★★)." }
+      { id: uid(), owner: p0, title:"Inspección semanal", week_start:w, progress:25, priority:"alto", notes:"Edita o borra esta actividad.", start_date:"", due_date:"" },
+      { id: uid(), owner: p0, title:"Informe preventivo", week_start:w, progress:60, priority:"medio", notes:"Fechas se editan con código 0800.", start_date:"", due_date:"" },
+      { id: uid(), owner: p1, title:"Seguimiento de hallazgos", week_start:w, progress:10, priority:"urgente", notes:"Arrastre automático si no llega a 100%.", start_date:"", due_date:"" }
     );
     saveData();
   }
 
-  // Week change
-  $("weekPicker").addEventListener("change", renderAll);
+  $("weekPicker").addEventListener("change", () => {
+    const newW = $("weekPicker").value;
+    const prevW = $("weekPicker").dataset.prevWeek || newW;
+    carryOverIncomplete(prevW, newW);
+    $("weekPicker").dataset.prevWeek = newW;
+    renderAll();
+  });
 
-  // Default selection
+  $("weekPicker").dataset.prevWeek = $("weekPicker").value;
+
   selectedPerson = TEAM[0] || "";
   renderAll();
+
+  // Live countdown refresh each minute (only affects visible cards)
+  setInterval(() => {
+    // just rerender detail if in person view to update countdown text
+    if(viewMode === "person") renderSelectedDetail();
+  }, 60000);
 })();
 </script>
 </body>
